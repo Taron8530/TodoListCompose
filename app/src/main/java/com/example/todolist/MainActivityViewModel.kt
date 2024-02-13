@@ -56,6 +56,18 @@ class MainActivityViewModel(val appDatabase: AppDatabase): ViewModel() {
         for (i in mainActivityModel.selectSchedule(date)){
             _scheduleList.add(i)
         }
+        val comparator = Comparator<ScheduleEntity> { o1, o2 ->
+            // true는 뒤로 보내고 false는 앞으로 보내도록 비교합니다.
+            if (o1.checkState && !o2.checkState) {
+                1 // o1이 뒤로 가게 됩니다.
+            } else if (!o1.checkState && o2.checkState) {
+                -1 // o1이 앞으로 가게 됩니다.
+            } else {
+                0 // 순서를 변경하지 않습니다.
+            }
+        }
+        _scheduleList.sortWith(comparator)
+
         Log.d(TAG, "selectSchedule: ${_scheduleList.toList()}")
     }
 
