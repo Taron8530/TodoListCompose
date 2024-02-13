@@ -72,6 +72,11 @@ class MainActivityViewModel(val appDatabase: AppDatabase): ViewModel() {
         }
     }
 
+    suspend fun updateSchedule(work:String){
+        mainActivityModel.updateSchedule(_editItem.value.identifier,work)
+        selectSchedule(_editItem.value.date)
+    }
+
     fun setShowDialog(isVisibility : Boolean){
 
         _showDialog.value = isVisibility

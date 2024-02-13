@@ -189,6 +189,9 @@ class MainActivity : ComponentActivity() {
 //                    addSchedule(message)
                     // 완료 버튼이 클릭됐을 때 실행될 로직 작성
                     viewModel.setShowEditDialog(false)
+                    GlobalScope.launch {
+                        viewModel.updateSchedule(message)
+                    }
                 }
             )
         }
@@ -243,6 +246,7 @@ class MainActivity : ComponentActivity() {
     ) {
         if (showDialog) {
             var message by remember { mutableStateOf("") }
+            message = mainActivityViewModel.editItem.value.work
 
             AlertDialog(
                 onDismissRequest = onDismiss,
@@ -252,7 +256,6 @@ class MainActivity : ComponentActivity() {
                         TextField(
                             value = message,
                             onValueChange = { message = it },
-                            placeholder = { Text(text = mainActivityViewModel.editItem.value.work)},
                             modifier = Modifier.fillMaxWidth()
                         )
                     }

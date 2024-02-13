@@ -19,7 +19,9 @@ class MainActivityModel(var appDatabase: AppDatabase) { // ROOM 사용
     suspend fun deleteSchedule(identifier : Long){
         appDatabase.getScheduleDAO().deleteSchedule(identifier)
     }
-    suspend fun updateSchedule(){
-
+    suspend fun updateSchedule(identifier: Long,work:String){
+        withContext(Dispatchers.IO){
+            appDatabase.getScheduleDAO().updateSchedule(identifier,work)
+        }
     }
 }

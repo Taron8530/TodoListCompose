@@ -14,6 +14,8 @@ interface ScheduleDAO {
 
     @Query("DELETE FROM ScheduleTable WHERE identifier = :identifier")
     fun deleteSchedule(identifier : Long)    // 회원 삭제
+    @Query("UPDATE ScheduleTable SET work = :work WHERE identifier = :identifier")
+    fun updateSchedule(identifier : Long,work : String)
 
 
 }
