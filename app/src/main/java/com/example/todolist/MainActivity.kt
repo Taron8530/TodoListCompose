@@ -86,19 +86,22 @@ class MainActivity : ComponentActivity() {
             mainActivityViewModel.selectSchedule(mainActivityViewModel.date.value)
         }
     }
-    fun addSchedule(work:String){
-        GlobalScope.launch {
 
-            mainActivityViewModel.addSchedule(ScheduleEntity(work = work, checkState = false,date=mainActivityViewModel.date.value))
+    fun addSchedule(work: String) {
+        GlobalScope.launch {
+            mainActivityViewModel.addSchedule(
+                ScheduleEntity(
+                    work = work,
+                    checkState = false,
+                    date = mainActivityViewModel.date.value
+                )
+            )
         }
     }
 
     @SuppressLint("CoroutineCreationDuringComposition")
     @Composable
-    fun calenderView(viewModel : MainActivityViewModel) {
-//        Log.d(TAG, "calenderView: ${date}")
-
-
+    fun calenderView(viewModel: MainActivityViewModel) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -116,7 +119,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }, modifier = Modifier.fillMaxWidth())
-            if(viewModel.scheduleList.size <=0){
+            if (viewModel.scheduleList.size <= 0) {
                 Text(text = "일정이 없습니다.")
             }
             Column(
@@ -134,37 +137,35 @@ class MainActivity : ComponentActivity() {
                                 .padding(15.dp)
                                 .clickable {
                                     Log.d(TAG, "calenderView: 아이템 클릭 됨 ${item}")
-//                                    viewModel.editItem = item
                                     viewModel.setEditItem(item)
                                     viewModel.setShowEditDialog(true)
                                 },
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            if(item.checkState){
+                            if (item.checkState) {
                                 Text(
                                     text = "${item.work}",
                                     modifier = Modifier
-                                        .align(Alignment.CenterVertically).weight(1f)
-                                    , textDecoration = TextDecoration.LineThrough
+                                        .align(Alignment.CenterVertically)
+                                        .weight(1f),
+                                    textDecoration = TextDecoration.LineThrough
                                 )
-                            }else{
+                            } else {
                                 Text(
                                     text = "${item.work}",
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier
+                                        .weight(1f)
                                         .align(Alignment.CenterVertically)
                                 )
                             }
                             Checkbox(checked = item.checkState, onCheckedChange = {
                                 Log.d(TAG, "calenderView: ${it}")
                                 GlobalScope.launch {
-                                    mainActivityViewModel.workStateChange(idx,it)
+                                    mainActivityViewModel.workStateChange(idx, it)
                                 }
                             }, modifier = Modifier.weight(1f))
                             Button(
                                 shape = RoundedCornerShape(8.dp),
-//                                colors = ButtonDefaults.buttonColors(
-//                                    contentColor = Color.Red
-//                                ),
                                 contentPadding = PaddingValues(16.dp),
                                 onClick = {
                                     GlobalScope.launch {
@@ -173,7 +174,6 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             ) {
-//                                Text(text = "삭제", color = Color.Red)
                                 Text(text = "삭제")
                             }
                         }
@@ -182,7 +182,7 @@ class MainActivity : ComponentActivity() {
 
                 Button(
                     onClick = {
-                              viewModel.setShowDialog(true)
+                        viewModel.setShowDialog(true)
 
                     },
                     modifier = Modifier
@@ -194,7 +194,7 @@ class MainActivity : ComponentActivity() {
             }
             DialogWithInput(
                 showDialog = viewModel.showDialog.value,
-                onDismiss = { viewModel.setShowDialog(false)  },
+                onDismiss = { viewModel.setShowDialog(false) },
                 onConfirm = { message ->
                     addSchedule(message)
                     // 완료 버튼이 클릭됐을 때 실행될 로직 작성
@@ -234,7 +234,7 @@ class MainActivity : ComponentActivity() {
                         TextField(
                             value = message,
                             onValueChange = { message = it },
-                            placeholder = { Text(text = "일정을 입력해주세요!")},
+                            placeholder = { Text(text = "일정을 입력해주세요!") },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -256,6 +256,7 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
+
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun DialogWithEdit(
