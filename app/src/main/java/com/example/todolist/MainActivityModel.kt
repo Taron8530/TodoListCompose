@@ -24,4 +24,10 @@ class MainActivityModel(var appDatabase: AppDatabase) { // ROOM 사용
             appDatabase.getScheduleDAO().updateSchedule(identifier,work)
         }
     }
+
+    suspend fun updateCheckState(identifier : Long,state:Boolean){
+        withContext(Dispatchers.IO){
+            appDatabase.getScheduleDAO().updateCheckState(identifier = identifier,state)
+        }
+    }
 }

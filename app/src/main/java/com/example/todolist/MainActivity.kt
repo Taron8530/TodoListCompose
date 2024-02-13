@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -47,6 +48,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -122,7 +124,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 LazyColumn(
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(10f)
                         .fillMaxWidth()
                 ) {
                     itemsIndexed(viewModel.scheduleList) { idx, item ->
@@ -130,17 +132,34 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(15.dp)
-                                .clickable { Log.d(TAG, "calenderView: 아이템 클릭 됨 ${item}")
+                                .clickable {
+                                    Log.d(TAG, "calenderView: 아이템 클릭 됨 ${item}")
 //                                    viewModel.editItem = item
                                     viewModel.setEditItem(item)
-                                    viewModel.setShowEditDialog(true) },
+                                    viewModel.setShowEditDialog(true)
+                                },
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(
-                                text = "${item.work}",
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically)
-                            )
+                            if(item.checkState){
+                                Text(
+                                    text = "${item.work}",
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically).weight(1f)
+                                    , textDecoration = TextDecoration.LineThrough
+                                )
+                            }else{
+                                Text(
+                                    text = "${item.work}",
+                                    modifier = Modifier.weight(1f)
+                                        .align(Alignment.CenterVertically)
+                                )
+                            }
+                            Checkbox(checked = item.checkState, onCheckedChange = {
+                                Log.d(TAG, "calenderView: ${it}")
+                                GlobalScope.launch {
+                                    mainActivityViewModel.workStateChange(idx,it)
+                                }
+                            }, modifier = Modifier.weight(1f))
                             Button(
                                 shape = RoundedCornerShape(8.dp),
 //                                colors = ButtonDefaults.buttonColors(

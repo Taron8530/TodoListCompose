@@ -1,6 +1,5 @@
 package com.example.todolist
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -16,6 +15,9 @@ interface ScheduleDAO {
     fun deleteSchedule(identifier : Long)    // 회원 삭제
     @Query("UPDATE ScheduleTable SET work = :work WHERE identifier = :identifier")
     fun updateSchedule(identifier : Long,work : String)
+
+    @Query("UPDATE ScheduleTable SET checkState = :state WHERE identifier = :identifier")
+    fun updateCheckState(identifier : Long,state:Boolean)
 
 
 }
