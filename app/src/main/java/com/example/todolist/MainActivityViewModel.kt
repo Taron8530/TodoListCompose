@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class MainActivityViewModel(val appDatabase: AppDatabase) : ViewModel() {
+class MainActivityViewModel(appDatabase: AppDatabase) : ViewModel() {
     private val _date = mutableStateOf("")
     private var _scheduleList = mutableStateListOf<ScheduleEntity>()
     val scheduleList: SnapshotStateList<ScheduleEntity> get() = _scheduleList
