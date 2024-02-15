@@ -3,7 +3,7 @@ package com.example.todolist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MainActivityModel(var appDatabase: AppDatabase) { // ROOM 사용
+class MainActivityModel(private var appDatabase: AppDatabase) { // ROOM 사용
     suspend fun selectSchedule(date: String): List<ScheduleEntity> {
         val scheduleList = withContext(Dispatchers.IO) {
             appDatabase.getScheduleDAO().getSchedule(date)
@@ -18,7 +18,9 @@ class MainActivityModel(var appDatabase: AppDatabase) { // ROOM 사용
     }
 
     suspend fun deleteSchedule(identifier: Long) {
-        appDatabase.getScheduleDAO().deleteSchedule(identifier)
+        withContext(Dispatchers.IO){
+            appDatabase.getScheduleDAO().deleteSchedule(identifier)
+        }
     }
 
     suspend fun updateSchedule(identifier: Long, work: String) {

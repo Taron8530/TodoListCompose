@@ -1,5 +1,6 @@
 package com.example.todolist
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -11,6 +12,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 
+@SuppressLint("SimpleDateFormat")
 class MainActivityViewModel(appDatabase: AppDatabase) : ViewModel() {
     private val _date = mutableStateOf("")
     private var _scheduleList = mutableStateListOf<ScheduleEntity>()
@@ -39,14 +41,10 @@ class MainActivityViewModel(appDatabase: AppDatabase) : ViewModel() {
     }
 
     init {
-        val now = System.currentTimeMillis();
+        val now = System.currentTimeMillis()
         val date = Date(now)
         val dateFormat = SimpleDateFormat("yyyy M d")
         _date.value = dateFormat.format(date)
-    }
-
-    fun test() {
-        _date.value = "gdgdgd"
     }
 
     suspend fun removeSchedule(item: ScheduleEntity) {

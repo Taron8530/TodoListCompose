@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun addSchedule(work: String) {
+    private fun addSchedule(work: String) {
         GlobalScope.launch {
             mainActivityViewModel.addSchedule(
                 ScheduleEntity(
